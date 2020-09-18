@@ -3,6 +3,7 @@ package com.hadiidbouk.charts;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -61,6 +62,15 @@ public class ChartProgressBar extends FrameLayout {
 	private OnBarClickedListener listener;
 	private boolean mBarCanBeToggle;
 
+	private String mEmptyColorS;
+	private String mProgressColorS;
+	private String mProgressClickColorS;
+	private String mProgressDisableColorS;
+	private String mPinBackgroundColorS;
+	private String mPinTextColorS;
+	private String mBarTitleColorS;
+	private String mBarTitleTxtSelectedColorS;
+
 	public ChartProgressBar(Context context, @Nullable AttributeSet attrs) {
 		super(context, attrs);
 
@@ -108,11 +118,9 @@ public class ChartProgressBar extends FrameLayout {
 		typedArray.recycle();
 	}
 
-
 	public void setDataList(ArrayList<BarData> dataList) {
 		mDataList = dataList;
 	}
-
 
 	public void setOnBarClickedListener(OnBarClickedListener listener) {
 		this.listener = listener;
@@ -206,13 +214,22 @@ public class ChartProgressBar extends FrameLayout {
 		GradientDrawable emptyLayer = (GradientDrawable) layerDrawable.getDrawable(0);
 		ScaleDrawable scaleDrawable = (ScaleDrawable) layerDrawable.getDrawable(1);
 
-		emptyLayer.setColor(ContextCompat.getColor(mContext, mEmptyColor));
+		if (mEmptyColorS != null){
+			emptyLayer.setColor(Color.parseColor(mEmptyColorS));
+		} else {
+			emptyLayer.setColor(ContextCompat.getColor(mContext, mEmptyColor));
+		}
+
 		emptyLayer.setCornerRadius(mBarRadius);
 
 		GradientDrawable progressLayer = (GradientDrawable) scaleDrawable.getDrawable();
 
 		if (progressLayer != null) {
-			progressLayer.setColor(ContextCompat.getColor(mContext, mProgressColor));
+			if (mProgressColorS != null){
+				progressLayer.setColor(Color.parseColor(mProgressColorS));
+			} else {
+				progressLayer.setColor(ContextCompat.getColor(mContext, mProgressColor));
+			}
 			progressLayer.setCornerRadius(mBarRadius);
 		}
 
@@ -229,7 +246,12 @@ public class ChartProgressBar extends FrameLayout {
 		txtBar.setTextSize(getSP(mBarTitleTxtSize));
 		txtBar.setText(title);
 		txtBar.setGravity(Gravity.CENTER);
-		txtBar.setTextColor(ContextCompat.getColor(mContext, mBarTitleColor));
+		if (mBarTitleColorS != null){
+			txtBar.setTextColor(Color.parseColor(mBarTitleColorS));
+		} else {
+			txtBar.setTextColor(ContextCompat.getColor(mContext, mBarTitleColor));
+		}
+
 		txtBar.setPadding(0, mBarTitleMarginTop, 0, 0);
 
 		txtBar.setLayoutParams(txtParams);
@@ -318,8 +340,11 @@ public class ChartProgressBar extends FrameLayout {
 
 								pinTxtView.setPadding(mPinPaddingStart, mPinPaddingTop, mPinPaddingEnd, mPinPaddingBottom);
 
-
-								pinTxtView.setTextColor(ContextCompat.getColor(mContext, mPinTextColor));
+								if (mBarTitleTxtSelectedColorS != null){
+									pinTxtView.setTextColor(Color.parseColor(mPinTextColorS));
+								} else {
+									pinTxtView.setTextColor(ContextCompat.getColor(mContext, mPinTextColor));
+								}
 
 								Rect bounds = new Rect();
 								pinTxtView.setText(pinTxt);
@@ -361,7 +386,6 @@ public class ChartProgressBar extends FrameLayout {
 	public void setMaxValue(float mMaxValue) {
 		this.mMaxValue = mMaxValue;
 	}
-
 
 	private float getSP(float size) {
 		return size / mMetrics.scaledDensity;
@@ -428,7 +452,11 @@ public class ChartProgressBar extends FrameLayout {
 				GradientDrawable progressLayer = (GradientDrawable) scaleDrawable.getDrawable();
 				if (mPinBackgroundColor != 0) {
 					if (progressLayer != null) {
-						progressLayer.setColor(ContextCompat.getColor(mContext, mProgressClickColor));
+						if (mProgressClickColorS != null){
+							progressLayer.setColor(Color.parseColor(mProgressClickColorS));
+						} else {
+							progressLayer.setColor(ContextCompat.getColor(mContext, mProgressClickColor));
+						}
 					}
 
 				} else {
@@ -438,7 +466,11 @@ public class ChartProgressBar extends FrameLayout {
 				}
 
 				if (mBarTitleSelectedColor > 0) {
-					titleTxtView.setTextColor(ContextCompat.getColor(mContext, mBarTitleSelectedColor));
+					if (mBarTitleTxtSelectedColorS != null){
+						titleTxtView.setTextColor(Color.parseColor(mBarTitleTxtSelectedColorS));
+					} else {
+						titleTxtView.setTextColor(ContextCompat.getColor(mContext, mBarTitleSelectedColor));
+					}
 				} else {
 					titleTxtView.setTextColor(ContextCompat.getColor(mContext, android.R.color.holo_green_dark));
 				}
@@ -472,13 +504,20 @@ public class ChartProgressBar extends FrameLayout {
 
 				GradientDrawable progressLayer = (GradientDrawable) scaleDrawable.getDrawable();
 				if (progressLayer != null) {
-					progressLayer.setColor(ContextCompat.getColor(mContext, mProgressColor));
+					if (mProgressColorS != null){
+						progressLayer.setColor(Color.parseColor(mProgressColorS));
+					} else {
+						progressLayer.setColor(ContextCompat.getColor(mContext, mProgressColor));
+					}
 				}
-				titleTxtView.setTextColor(ContextCompat.getColor(mContext, mBarTitleColor));
+				if (mBarTitleColorS != null){
+					titleTxtView.setTextColor(Color.parseColor(mBarTitleColorS));
+				} else {
+					titleTxtView.setTextColor(ContextCompat.getColor(mContext, mBarTitleColor));
+				}
 			}
 		}
 	}
-
 
 	public ArrayList<BarData> getData() {
 		return mDataList;
@@ -610,7 +649,11 @@ public class ChartProgressBar extends FrameLayout {
 							if (progressLayer != null) {
 
 								if (mProgressDisableColor > 0)
-									progressLayer.setColor(ContextCompat.getColor(mContext, mProgressDisableColor));
+									if (mProgressDisableColorS != null){
+										progressLayer.setColor(Color.parseColor(mProgressDisableColorS));
+									} else {
+										progressLayer.setColor(ContextCompat.getColor(mContext, mProgressDisableColor));
+									}
 								else
 									progressLayer.setColor(ContextCompat.getColor(mContext, android.R.color.darker_gray));
 							}
@@ -626,7 +669,6 @@ public class ChartProgressBar extends FrameLayout {
 			}
 		}
 	}
-
 
 	public void enableBar(int index) {
 
@@ -670,14 +712,22 @@ public class ChartProgressBar extends FrameLayout {
 							if (progressLayer != null) {
 
 								if (mProgressColor > 0)
-									progressLayer.setColor(ContextCompat.getColor(mContext, mProgressColor));
+									if (mProgressColorS != null){
+										progressLayer.setColor(Color.parseColor(mProgressColorS));
+									} else {
+										progressLayer.setColor(ContextCompat.getColor(mContext, mProgressColor));
+									}
 								else
 									progressLayer.setColor(ContextCompat.getColor(mContext, android.R.color.darker_gray));
 							}
 						} else {
 							TextView titleTxtView = (TextView) view;
 							if (mProgressDisableColor > 0)
-								titleTxtView.setTextColor(ContextCompat.getColor(mContext, mBarTitleColor));
+								if (mBarTitleColorS != null){
+									titleTxtView.setTextColor(Color.parseColor(mBarTitleColorS));
+								} else {
+									titleTxtView.setTextColor(ContextCompat.getColor(mContext, mBarTitleColor));
+								}
 							else
 								titleTxtView.setTextColor(ContextCompat.getColor(mContext, android.R.color.darker_gray));
 						}
@@ -729,4 +779,37 @@ public class ChartProgressBar extends FrameLayout {
 			}
 		}
 	}
+
+	public void setEmptyColor(String mEmptyColorS) {
+		this.mEmptyColorS = mEmptyColorS;
+	}
+
+	public void setProgressColor(String mProgressColorS) {
+		this.mProgressColorS = mProgressColorS;
+	}
+
+	public void setProgressClickColor(String mProgressClickColorS) {
+		this.mProgressClickColorS = mProgressClickColorS;
+	}
+
+	public void setProgressDisableColor(String mProgressDisableColorS) {
+		this.mProgressDisableColorS = mProgressDisableColorS;
+	}
+
+	public void setPinBackgroundColor(String mPinBackgroundColorS) {
+		this.mPinBackgroundColorS = mPinBackgroundColorS;
+	}
+
+	public void setPinTextColor(String mPinTextColorS) {
+		this.mPinTextColorS = mPinTextColorS;
+	}
+
+	public void setBarTitleColor(String mBarTitleColorS) {
+		this.mBarTitleColorS = mBarTitleColorS;
+	}
+
+	public void setBarTitleTxtSelectedColor(String mBarTitleTxtSelectedColorS) {
+		this.mBarTitleTxtSelectedColorS = mBarTitleTxtSelectedColorS;
+	}
+
 }

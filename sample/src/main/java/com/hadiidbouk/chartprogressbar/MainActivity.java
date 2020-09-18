@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnBarClickedListe
 		mChart = (ChartProgressBar) findViewById(R.id.ChartProgressBar);
 
 		mChart.setDataList(dataList);
+		mChart.setProgressColor("#456456");
 		mChart.build();
 		mChart.setOnBarClickedListener(this);
 		mChart.disableBar(dataList.size() - 1);

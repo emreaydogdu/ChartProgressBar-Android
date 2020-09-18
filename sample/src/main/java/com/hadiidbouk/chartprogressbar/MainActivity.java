@@ -1,5 +1,6 @@
 package com.hadiidbouk.chartprogressbar;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnBarClickedListe
 		mChart = (ChartProgressBar) findViewById(R.id.ChartProgressBar);
 
 		mChart.setDataList(dataList);
-		mChart.setProgressColor("#456456");
+		mChart.setProgressColor(Color.parseColor("#456456"));
 		mChart.build();
 		mChart.setOnBarClickedListener(this);
 		mChart.disableBar(dataList.size() - 1);

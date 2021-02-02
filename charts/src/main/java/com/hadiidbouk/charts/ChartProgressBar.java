@@ -610,7 +610,6 @@ public class ChartProgressBar extends FrameLayout {
 					}
 				}
 
-
 			}
 		}
 		isBarsEmpty = false;
@@ -790,6 +789,62 @@ public class ChartProgressBar extends FrameLayout {
 
 				clickBarOff(rootFrame);
 			}
+		}
+	}
+
+	public void increaseBar(int index){
+		FrameLayout rootFrame = (FrameLayout) ((LinearLayout) this.getChildAt(0)).getChildAt(index);
+		int rootChildCount = rootFrame.getChildCount();
+
+		for (int j = 0; j < rootChildCount; j++) {
+
+			View childView = rootFrame.getChildAt(j);
+
+			if (childView instanceof LinearLayout) {
+				//bar
+				LinearLayout barContainerLinear = ((LinearLayout) childView);
+				int barContainerCount = barContainerLinear.getChildCount();
+
+				for (int k = 0; k < barContainerCount; k++) {
+
+					View view = barContainerLinear.getChildAt(k);
+
+					if (view instanceof Bar) {
+						BarAnimation anim = new BarAnimation(((Bar) view), (int) ((mDataList.get(index).getBarValue()-1) * 100), (int) (mDataList.get(index).getBarValue() * 100));
+						anim.setDuration(250);
+						view.startAnimation(anim);
+					}
+				}
+			}
+
+		}
+	}
+
+	public void decreaseBar(int index){
+		FrameLayout rootFrame = (FrameLayout) ((LinearLayout) this.getChildAt(0)).getChildAt(index);
+		int rootChildCount = rootFrame.getChildCount();
+
+		for (int j = 0; j < rootChildCount; j++) {
+
+			View childView = rootFrame.getChildAt(j);
+
+			if (childView instanceof LinearLayout) {
+				//bar
+				LinearLayout barContainerLinear = ((LinearLayout) childView);
+				int barContainerCount = barContainerLinear.getChildCount();
+
+				for (int k = 0; k < barContainerCount; k++) {
+
+					View view = barContainerLinear.getChildAt(k);
+
+					if (view instanceof Bar) {
+						BarAnimation anim = new BarAnimation(((Bar) view), (int) ((mDataList.get(index).getBarValue()+1) * 100), (int) (mDataList.get(index).getBarValue() * 100));
+						anim.setDuration(250);
+						view.startAnimation(anim);
+					}
+				}
+			}
+
 		}
 	}
 

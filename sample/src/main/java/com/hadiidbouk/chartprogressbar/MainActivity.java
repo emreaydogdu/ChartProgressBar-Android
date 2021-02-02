@@ -15,13 +15,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements OnBarClickedListener {
 
 	private ChartProgressBar mChart;
+	private ArrayList<BarData> dataList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		ArrayList<BarData> dataList = new ArrayList<>();
+		dataList = new ArrayList<>();
 
 		BarData data = new BarData("Sep", 3.4f, "3.4€");
 		dataList.add(data);
@@ -59,8 +60,17 @@ public class MainActivity extends AppCompatActivity implements OnBarClickedListe
 			case R.id.BtnReset :
 				mChart.resetBarValues();
 				break;
-			case R.id.BtnClearClick :
-				mChart.removeClickedBar();
+			case R.id.plus :
+				BarData bar = dataList.get(0);
+				bar.setBarValue(bar.getBarValue()+1);
+				dataList.set(0, bar);
+				mChart.increaseBar(0);
+				break;
+			case R.id.minus :
+				BarData bar2 = dataList.get(0);
+				bar2.setBarValue(bar2.getBarValue()-1);
+				dataList.set(0, bar2);
+				mChart.decreaseBar(0);
 				break;
 		}
 	}
